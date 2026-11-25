@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:adhan/adhan.dart' show CalculationMethod;
 
 import 'package:material_ui/material_ui.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
@@ -17,6 +18,7 @@ import 'strings.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   tzdata.initializeTimeZones();
+  await initializeDateFormatting('en');
   await initNotifications();
   final st = await AppSettings.load();
   runApp(PrayerApp(initial: st));
@@ -155,7 +157,7 @@ class _TimesViewState extends State<TimesView> {
       children: [
         Text(st.arabic ? st.city.ar : st.city.en,
             style: Theme.of(context).textTheme.headlineSmall),
-        Text('${s.today}: ${DateFormat('EEE d MMM yyyy').format(now)}'),
+        Text('${s.today}: ${DateFormat('EEE d MMM yyyy', 'en').format(now)}'),
         const SizedBox(height: 12),
         if (nxt != null)
           Card(
